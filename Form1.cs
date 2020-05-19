@@ -13,11 +13,13 @@ namespace ImageEncrypt {
 	public partial class Form1 : Form {
 		byte[] result;
 		byte[] bytes;
+		string Extension;
 		public Form1() {
 			InitializeComponent();
 		}
 		private void BtnLoad_Click(object sender, EventArgs e) {
 			if(openFileDialog1.ShowDialog() == DialogResult.OK) {
+				Extension = Path.GetExtension(openFileDialog1.FileName);
 				Stream LoadFile = openFileDialog1.OpenFile();
 				pictureBox1.Image = Image.FromStream(LoadFile);
 				LoadFile.Position = 0;
@@ -43,7 +45,7 @@ namespace ImageEncrypt {
 					result[Counter] = bytes[temp - i * iterator + x];
 				}
 			}
-
+			saveFileDialog1.DefaultExt = Extension;
 			if(saveFileDialog1.ShowDialog() == DialogResult.OK) {
 				BinaryWriter bw = new BinaryWriter(saveFileDialog1.OpenFile());
 				bw.Write(result);
